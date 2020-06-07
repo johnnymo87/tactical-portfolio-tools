@@ -1,1 +1,3 @@
-.irb-history
+*.pyc
+.python_history
+.hypothesis/

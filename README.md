@@ -1,6 +1,6 @@
-# Ruby Starter Kit
+# Python Starter Kit
 
-A starter kit for writing code and [tests](https://github.com/seattlerb/minitest#label-Specs) in ruby.
+A starter kit for writing code and [tests](https://docs.python.org/3/library/unittest.html) in python.
 
 #### Dependencies
 * docker
@@ -17,9 +17,9 @@ A starter kit for writing code and [tests](https://github.com/seattlerb/minitest
   ```sh
   docker-compose run --rm app
   ```
-* run something else, like `bash` or `irb`
+* run something else, like `bash` or `python3`
   ```sh
-  docker-compose run --rm app irb -Ilib
+  docker-compose run --rm app python3
   ```
 
 ## Copy
@@ -32,7 +32,20 @@ A starter kit for writing code and [tests](https://github.com/seattlerb/minitest
   * it's not OK if `path/to/new` doesn't exist, hence the `mkdir -p`
 
 ## Debug
-* documentation [here](https://github.com/pry/pry)
-* set a breakpoint with `require 'pry'; binding.pry`
-* continue with `exit`
-* quit with `exit!`
+* documentation [here](https://docs.python.org/3/library/pdb.html)
+* set a breakpoint with `import pdb; pdb.set_trace()`
+  * if you're using vim with [a project-specific .vimrc](https://andrew.stwrt.ca/posts/project-specific-vimrc/), you can type this with `<leader>db`
+* show where you are with `list`
+* continue with `continue`
+* quit with `quit`
+
+## Add a new dependency
+* Inside the container, install it with pip and then update requirements.txt
+  ```sh
+  pip3 install pytest-timeout
+  pip3 freeze > requirements.txt
+  ```
+* This new package will be gone once you exit the container. But since it's still listed in requirements.txt, you can bake it into all future containers by rebuilding the image
+  ```sh
+  docker-compose build
+  ```

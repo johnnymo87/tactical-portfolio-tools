@@ -1,28 +1,21 @@
 # Base image
-FROM ruby:2.6.6-buster AS base
+FROM python:3.8.3-buster AS base
 
-WORKDIR /app
-
-ADD ./Gemfile /app/Gemfile
-ADD ./Gemfile.lock /app/Gemfile.lock
-
-RUN gem install bundler -no-ri-no-rdoc && \
-  bundle config set without 'development test' && \
-  bundle install
+COPY requirements.txt /tmp/requirements.txt
+RUN  pip3 install -r /tmp/requirements.txt
 
 # Release image
 FROM base AS release
 
-ADD . /app
+WORKDIR /app
+COPY . /app
+ENV PYTHONPATH=.
 
-CMD irb -Ilib
+CMD python3 .
 
 # Test image
-FROM base AS test
+FROM release AS test
 
-ENV TESTOPTS=--pride
+RUN ln -sf /app/.python_history ~/.python_history
 
-RUN bundle config --delete without && \
-  bundle install
-
-CMD rake test
+CMD pytest
