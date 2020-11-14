@@ -39,11 +39,10 @@ A starter kit for writing code and [tests](https://docs.python.org/3/library/uni
 * continue with `continue`
 * quit with `quit`
 
-## Add a new dependency
-* Inside the container, install it with pip and then update requirements.txt
+## Add a new python package
+* Inside the container, use the bash function `pip-install-save` to simultaneously install the python package and update `requirements.txt`. For example, say you wanted to install `pytest-timeout`:
   ```sh
-  pip3 install pytest-timeout
-  pip3 freeze > requirements.txt
+  pip-install-save pytest-timeout
   ```
 * This new package will be gone once you exit the container. But since it's still listed in requirements.txt, you can bake it into all future containers by rebuilding the image
   ```sh
