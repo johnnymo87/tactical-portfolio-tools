@@ -17,9 +17,9 @@ A starter kit for writing code and [tests](https://docs.python.org/3/library/uni
   ```sh
   docker-compose run --rm app
   ```
-* run something else, like `bash` or `python3`
+* run something else, like `bash` or `python`
   ```sh
-  docker-compose run --rm app python3
+  docker-compose run --rm app python
   ```
 
 ## Copy
