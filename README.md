@@ -40,10 +40,11 @@ A starter kit for writing code and [tests](https://docs.python.org/3/library/uni
 * quit with `quit`
 
 ## Add a new python package
-* Inside the container, use the bash function `pip-install-save` to simultaneously install the python package and update `requirements.txt`. For example, say you wanted to install `pytest-timeout`:
+* Add the package name to `requirements.in`. Then, while exec-ed into the container, but not while running the application, run:
   ```sh
-  pip-install-save pytest-timeout
+  pip-compile --output-file=- > requirements.txt
   ```
+  This will write to `requirements.txt`. For more details, see [this stackoverflow](https://stackoverflow.com/a/65666949/2197402).
 * This new package will be gone once you exit the container. But since it's still listed in requirements.txt, you can bake it into all future containers by rebuilding the image
   ```sh
   docker-compose build
