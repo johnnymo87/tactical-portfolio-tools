@@ -1,50 +1,45 @@
 # Python Starter Kit
-
-A starter kit for writing code and [tests](https://docs.python.org/3/library/unittest.html) in python.
+This app is a starter kit for writing code and [tests](https://docs.python.org/3/library/unittest.html) in python. Use it as a seed for starting a new python project. Use the following command to copy this app's code to a new directory:
+```console
+mkdir -p path/to/new
+cp -r path/to/this/directory path/to/new/directory
+```
 
 ## Dependencies
 The only local dependency you need to configure to use this codebase is `docker-compose`. This is great, because once you have docker working, it eliminates the "well it works on my machine" kind of problems. If it works on docker for you, it will work in docker for anyone.
 
 ## Install
-* build the image
-  ```sh
+* Build the image:
+  ```console
   docker-compose build
   ```
 
 ## Run
-* run the tests
-  ```sh
+* Run the app one time and exit:
+  ```console
   docker-compose run --rm app
   ```
-* run something else, like `bash` or `python`
-  ```sh
-  docker-compose run --rm app python
+* Open a long-running session inside the container:
+  ```console
+  docker-compose run --rm app bash
   ```
-
-## Copy
-* this command will clone even hidden files and directories
-  ```sh
-  mkdir -p path/to/new
-  cp -rT path/to/this/directory path/to/new/directory
-  ```
-  * it's OK if `path/to/new/directory` already exists
-  * it's not OK if `path/to/new` doesn't exist, hence the `mkdir -p`
+  From here, you can run the app with `python .` and the tests with `pytest`.
 
 ## Debug
-* documentation [here](https://docs.python.org/3/library/pdb.html)
-* set a breakpoint with `import pdb; pdb.set_trace()`
-  * if you're using vim with [a project-specific .vimrc](https://andrew.stwrt.ca/posts/project-specific-vimrc/), you can type this with `<leader>db`
-* show where you are with `list`
-* continue with `continue`
-* quit with `quit`
+* Documentation [here](https://docs.python.org/3/library/pdb.html).
+* Set a breakpoint with `import pdb; pdb.set_trace()`.
+  * If you're using vim with [a project-specific .vimrc](https://andrew.stwrt.ca/posts/project-specific-vimrc/), you can type this with `<leader>db`.
+* Show where you are with `list`.
+* Continue with `continue`.
+* Quit with `quit`.
 
 ## Add a new python package
-* Add the package name to `requirements.in`. Then, while exec-ed into the container, but not while running the application, run:
-  ```sh
+* Add the package name to `requirements.in`. Then, while in the container, but not while running the application, run:
+  ```console
   pip-compile --output-file=- > requirements.txt
   ```
   This will write to `requirements.txt`. For more details, see [this stackoverflow](https://stackoverflow.com/a/65666949/2197402).
-* This new package will be gone once you exit the container. But since it's still listed in requirements.txt, you can bake it into all future containers by rebuilding the image
+* This new package will be gone once you exit the container. But since it's still listed in requirements.txt, you can bake it into all future containers by rebuilding the image:
   ```sh
   docker-compose build
   ```
