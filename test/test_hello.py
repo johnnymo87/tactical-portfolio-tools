@@ -1,9 +1,12 @@
-from hypothesis import given
 import hypothesis.strategies as s
+from hypothesis import given
+
 from lib.hello_world import HelloWorld
 
+
 def test_world():
-    assert HelloWorld.hello_world() == 'hello world'
+    assert HelloWorld.hello_world() == "hello world"
+
 
 @given(s.lists(s.integers()))
 def test_hypothesis(xs):

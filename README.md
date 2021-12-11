@@ -37,6 +37,11 @@ The only local dependency you need to configure to use this codebase is `docker-
     flake8
     ```
     * For more usage instructions, see [the flake8 documentation](https://flake8.pycqa.org/en/latest/index.html).
+  * Run the auto formatter.
+    ```console
+    pre-commit run --all-files
+    ```
+    * For more usage instructions, see [the pre-commit documentation](https://pre-commit.com/).
 
 ## Debug
 * Documentation [here](https://docs.python.org/3/library/pdb.html).
