@@ -4,5 +4,6 @@ services:
   app:
     build:
       context: .
+      target: development
     volumes:
       - .:/app

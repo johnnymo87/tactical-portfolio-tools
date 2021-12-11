@@ -23,7 +23,20 @@ The only local dependency you need to configure to use this codebase is `docker-
   ```console
   docker-compose run --rm app bash
   ```
-  From here, you can run the app with `python .` and the tests with `pytest`.
+  From here, you can ...
+  * Run the tests.
+    ```console
+    pytest
+    ```
+  * Run the app.
+    ```console
+    python .
+    ```
+  * Run the linter.
+    ```console
+    flake8
+    ```
+    * For more usage instructions, see [the flake8 documentation](https://flake8.pycqa.org/en/latest/index.html).
 
 ## Debug
 * Documentation [here](https://docs.python.org/3/library/pdb.html).
@@ -34,12 +47,15 @@ The only local dependency you need to configure to use this codebase is `docker-
 * Quit with `quit`.
 
 ## Add a new python package
-* Add the package name to `requirements.in`. Then, while in the container, but not while running the application, run:
+This app makes use of [`pip-tools](https://github.com/jazzband/pip-tools) to manage packages. Add the new package to `requirements.in`, unless it's only used for local development, in which it should go to `dev-requirements.in`. After this, use `pip-compile` on whichever `.in` file you modified to generate its respective `.txt` file. These `.txt` files are what the Dockerfile uses to install packages when building the image.
+
+### Example: installing a package for local development
+* Add the package name to `dev-requirements.in`.
+* Compile `dev-requirements.in`.
   ```console
-  pip-compile --output-file=- > requirements.txt
+  docker-compose run --rm app pip-compile dev-requirements.in
   ```
-  This will write to `requirements.txt`. For more details, see [this stackoverflow](https://stackoverflow.com/a/65666949/2197402).
-* This new package will be gone once you exit the container. But since it's still listed in requirements.txt, you can bake it into all future containers by rebuilding the image:
-  ```sh
+* Rebuild the image.
+  ```console
   docker-compose build
   ```
