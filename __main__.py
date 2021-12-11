@@ -1,4 +1,4 @@
-from lib.hello import Hello
+from lib.hello_world import HelloWorld
 
 if __name__ == '__main__':
-    print(Hello.world())
+    print(HelloWorld.hello_world())
