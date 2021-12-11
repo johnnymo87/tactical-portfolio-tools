@@ -1,4 +1,6 @@
 # Constrain the dev requirements to packages already selected for production in requirements.txt.
 -c requirements.txt
 flake8~=4.0
+hypothesis~=6.30
 pre-commit~=2.16
+pytest~=6.2
