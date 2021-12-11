@@ -8,7 +8,7 @@ attrs==21.2.0
     # via
     #   hypothesis
     #   pytest
-hypothesis==6.30.1
+hypothesis==6.31.3
     # via -r requirements.in
 iniconfig==1.1.1
     # via pytest
