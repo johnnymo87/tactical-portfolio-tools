@@ -2,9 +2,8 @@
 
 A starter kit for writing code and [tests](https://docs.python.org/3/library/unittest.html) in python.
 
-#### Dependencies
-* docker
-* docker-compose
+## Dependencies
+The only local dependency you need to configure to use this codebase is `docker-compose`. This is great, because once you have docker working, it eliminates the "well it works on my machine" kind of problems. If it works on docker for you, it will work in docker for anyone.
 
 ## Install
 * build the image
