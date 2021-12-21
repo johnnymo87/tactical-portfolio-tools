@@ -52,7 +52,7 @@ The only local dependency you need to configure to use this codebase is `docker-
 * Quit with `quit`.
 
 ## Add a new python package
-This app makes use of [`pip-tools](https://github.com/jazzband/pip-tools) to manage packages. Add the new package to `requirements.in`, unless it's only used for local development, in which it should go to `dev-requirements.in`. After this, use `pip-compile` on whichever `.in` file you modified to generate its respective `.txt` file. These `.txt` files are what the Dockerfile uses to install packages when building the image.
+This app makes use of [`pip-tools`](https://github.com/jazzband/pip-tools) to manage packages. Add the new package to `requirements.in`, unless it's only used for local development, in which it should go to `dev-requirements.in`. After this, use `pip-compile` on whichever `.in` file you modified to generate its respective `.txt` file. These `.txt` files are what the Dockerfile uses to install packages when building the image.
 
 ### Example: installing a package for local development
 * Add the package name to `dev-requirements.in`.
