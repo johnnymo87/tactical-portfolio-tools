@@ -2,16 +2,16 @@ FROM python:3.10-bullseye AS production
 
 WORKDIR /app
 ENV PYTHONPATH=.
-COPY requirements.txt .
-RUN  pip install --upgrade pip && \
-     pip install pip-tools && \
-     pip-sync
+ENV POETRY_HOME=/usr/local
+COPY poetry.lock pyproject.toml ./
+RUN curl -sSL https://install.python-poetry.org | python3 - && \
+    poetry install --no-dev
 
 COPY . /app
 
-CMD python .
+CMD poetry run python .
 
 FROM production AS development
 
-RUN pip-sync requirements.txt dev-requirements.txt
-RUN ln -sf /app/.python_history ~/.python_history
+RUN poetry install && \
+    ln -sf /app/.python_history ~/.python_history

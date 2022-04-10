@@ -26,20 +26,20 @@ The only local dependency you need to configure to use this codebase is `docker-
   From here, you can ...
   * Run the tests.
     ```console
-    pytest
+    poetry run pytest
     ```
   * Run the app.
     ```console
-    python .
+    poetry run python .
     ```
   * Run the linter.
     ```console
-    flake8
+    poetry run flake8
     ```
     * For more usage instructions, see [the flake8 documentation](https://flake8.pycqa.org/en/latest/index.html).
   * Run the auto formatter.
     ```console
-    pre-commit run --all-files
+    poetry run pre-commit run --all-files
     ```
     * For more usage instructions, see [the pre-commit documentation](https://pre-commit.com/).
 
@@ -52,15 +52,4 @@ The only local dependency you need to configure to use this codebase is `docker-
 * Quit with `quit`.
 
 ## Add a new python package
-This app makes use of [`pip-tools`](https://github.com/jazzband/pip-tools) to manage packages. Add the new package to `requirements.in`, unless it's only used for local development, in which it should go to `dev-requirements.in`. After this, use `pip-compile` on whichever `.in` file you modified to generate its respective `.txt` file. These `.txt` files are what the Dockerfile uses to install packages when building the image.
-
-### Example: installing a package for local development
-* Add the package name to `dev-requirements.in`.
-* Compile `dev-requirements.in`.
-  ```console
-  docker-compose run --rm app pip-compile dev-requirements.in
-  ```
-* Rebuild the image.
-  ```console
-  docker-compose build
-  ```
+This app makes use of [`poetry`](https://python-poetry.org/) to manage packages. See docs there for how to add packages.
