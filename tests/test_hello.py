@@ -1,6 +1,5 @@
 import hypothesis.strategies as s
 from hypothesis import given
-
 from lib.hello_world import HelloWorld
 
 
