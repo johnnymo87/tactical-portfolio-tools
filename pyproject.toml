@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "python-starter"
+name = "tactical-portfolio-tools"
 version = "0.1.0"
-description = "A starter kit for writing code and tests in python"
+description = "A collection of tools for tactical investing"
 authors = ["Jonathan Mohrbacher"]
 license = "MIT"
 
@@ -10,9 +10,7 @@ python = "^3.10"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0"
-hypothesis = "^6.42"
 pre-commit = "^2.18"
-pytest = "^7.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
