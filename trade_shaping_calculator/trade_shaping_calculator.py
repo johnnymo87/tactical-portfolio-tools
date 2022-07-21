@@ -1,5 +1,5 @@
 """
-Main application process for the Beta Calculator.
+Main application process for the Trading Shaping Calculator.
 """
 
 from calendar import monthrange
@@ -10,10 +10,10 @@ import pandas as pd
 # Datareader to download price data from the Yahoo API
 import pandas_datareader as web
 
-
 PORTFOLIO_DRAWDOWN_MAX_PERCENT = 0.025
 
-class BetaCalculator:
+
+class TradeShapingCalculator:
     @staticmethod
     def run():
         """
@@ -31,23 +31,29 @@ class BetaCalculator:
         portfolio_size = input("Please enter the size in dollars of the portfolio:\n")
         portfolio_size = int(portfolio_size)
 
-        ticker_percent_monthly_changes = BetaCalculator.percent_monthly_changes(ticker)
+        ticker_percent_monthly_changes = TradeShapingCalculator.percent_monthly_changes(
+            ticker
+        )
         ticker_percent_standard_deviation = ticker_percent_monthly_changes.std()
-        max_allocation = portfolio_size * PORTFOLIO_DRAWDOWN_MAX_PERCENT / ticker_percent_standard_deviation
-        current_price = web.get_data_yahoo(ticker, date.today())['Adj Close'][0]
+        max_allocation = (
+            portfolio_size
+            * PORTFOLIO_DRAWDOWN_MAX_PERCENT
+            / ticker_percent_standard_deviation
+        )
+        current_price = web.get_data_yahoo(ticker, date.today())["Adj Close"][0]
         stop_loss = current_price * (1 - ticker_percent_standard_deviation)
         target_profit = current_price * (1 + (ticker_percent_standard_deviation * 1.5))
 
         output = {
-            'portfolio_size': portfolio_size,
-            'ticker': ticker,
-            'current price': current_price,
-            'percent standard deviation': ticker_percent_standard_deviation * 100,
-            'max allocation': max_allocation,
-            'stop loss': stop_loss,
-            'target profit': target_profit
+            "portfolio_size": portfolio_size,
+            "ticker": ticker,
+            "current price": current_price,
+            "percent standard deviation": ticker_percent_standard_deviation * 100,
+            "max allocation": max_allocation,
+            "stop loss": stop_loss,
+            "target profit": target_profit,
         }
-        output = { k: [v] for k, v in output.items() }
+        output = {k: [v] for k, v in output.items()}
         output = pd.DataFrame(output)
 
         print()
@@ -99,7 +105,10 @@ class BetaCalculator:
         @raise [pandas_datareader._utils.RemoteDataError] If Yahoo API response
           is not 200
         """
-        start, end = BetaCalculator.start_and_end_dates_for_10y_of_monthly_returns()
+        (
+            start,
+            end,
+        ) = TradeShapingCalculator.start_and_end_dates_for_10y_of_monthly_returns()
 
         data = web.get_data_yahoo(ticker, start, end)
 

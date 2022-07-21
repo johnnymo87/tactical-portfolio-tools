@@ -1,7 +1,7 @@
 # Tactical Portfolio Tools
 This code repository is ~a collection of tools~ currently just one tool for tactical investing.
 
-# Beta calculator
+# Trade shaping calculator
 The app implements the tactical investing advice discribed by [Alfonso Peccatiello](https://twitter.com/MacroAlf) in [this edition](https://themacrocompass.substack.com/i/37808996/the-tactical-approach) of his [Macro Compass substack](https://themacrocompass.substack.com/).
 
 > The rules of the game are the following.
@@ -22,7 +22,7 @@ The app implements the tactical investing advice discribed by [Alfonso Peccatiel
 >
 > Yes I know, it's not nearly a perfectly scientific approach and I am simplifying many things, but it should work as a general framework to try and see how my calls are doing.
 
-So this app will calculate the recommended stop loss, target profit, and size for an investment. This is all based on what a one standard deviation move is, which related to the concept of [beta](https://www.investopedia.com/terms/b/beta.asp), so I'm calling this app a beta calcuator for the lack of a better name.
+So this app will calculate the recommended stop loss, target profit, and size for an investment, all based on what a one standard deviation move is for this investment. I'm calling this app a trade shaping calcuator.
 
 ## Functionality
 
@@ -32,6 +32,8 @@ When run, the app will ...
 * Look up 10 years of monthly returns.
 * Calculate the standard deviation.
 * Print the recommended stop loss, target profit, and size for the investment.
+
+# Installation
 
 ## Dependencies
 The only local dependency you need to configure to use this codebase is `docker-compose`. This is great, because once you have docker working, it eliminates the "well it works on my machine" kind of problems. If it works on docker for you, it will work in docker for anyone.
@@ -52,9 +54,9 @@ The only local dependency you need to configure to use this codebase is `docker-
   docker-compose run --rm app bash
   ```
   From here, you can ...
-  * Run the beta calculator app.
+  * Run the trade shaping calculator app.
     ```console
-    poetry run python -m beta_calculator
+    poetry run python -m trade_shaping_calculator
     ```
   * Run the auto formatter.
     ```console
