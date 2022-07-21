@@ -33,9 +33,23 @@ class TradeShapingCalculator:
         portfolio_size = input("Please enter the size in dollars of the portfolio:\n")
         portfolio_size = int(portfolio_size)
 
-        percent_monthly_changes = TradeShapingCalculator.percent_monthly_changes(ticker)
-        ten_year_percent_standard_deviation = percent_monthly_changes.std()
-        five_year_percent_standard_deviation = percent_monthly_changes.tail(60).std()
+        # Query one extra month because we will drop it later because it will
+        # have a NaN.
+        (
+            start,
+            end,
+        ) = TradeShapingCalculator.start_and_end_dates_for_n_monthly_returns(
+            10 * 12 + 1
+        )
+        monthly_prices = TradeShapingCalculator.monthly_prices(ticker, start, end)
+
+        # Drop the first month because it has a NaN
+        monthly_percent_changes = monthly_prices.pct_change(periods=1)[1:].rename(
+            "monthly percent change"
+        )
+
+        ten_year_percent_standard_deviation = monthly_percent_changes.std()
+        five_year_percent_standard_deviation = monthly_percent_changes.tail(60).std()
         max_allocation = (
             portfolio_size
             * PORTFOLIO_DRAWDOWN_MAX_PERCENT
@@ -64,14 +78,17 @@ class TradeShapingCalculator:
         print(output.round(2))
 
     @staticmethod
-    def start_and_end_dates_for_10y_of_monthly_returns():
+    def start_and_end_dates_for_n_monthly_returns(number_of_months_back):
         """
-        Returns a (start, end) date pair that spans 10 years. The dates are the
+        Returns a (start, end) date pair that spans n months. The dates are the
         last day of the month of their respective months.
 
         When we query data with these dates, they will be considered inclusive.
 
-        @return [Date, Date]
+        @param [int] number_of_months_back A positive integer representing how
+          many months ago should be the start date.
+
+        @return [datetime.date, datetime.date]
         """
         today = date.today()
 
@@ -88,15 +105,12 @@ class TradeShapingCalculator:
             )
             raise ValueError(message)
 
-        # Offset start date from end date by 10 years and one month. The one
-        # month so we can use it calculate the percent change that occured
-        # in month one of 10 years ago.
-        start_date = end_date + pd.offsets.DateOffset(years=-10, months=-1)
+        start_date = end_date + pd.offsets.DateOffset(months=-number_of_months_back)
 
         return [start_date, end_date]
 
     @staticmethod
-    def percent_monthly_changes(ticker):
+    def monthly_prices(ticker, start, end):
         """
         @param [string] ticker Ticker symbol of the stock
         @param [Date] start Start date of the range (inclusive) of desired data
@@ -109,11 +123,6 @@ class TradeShapingCalculator:
         @raise [pandas_datareader._utils.RemoteDataError] If Yahoo API response
           is not 200
         """
-        (
-            start,
-            end,
-        ) = TradeShapingCalculator.start_and_end_dates_for_10y_of_monthly_returns()
-
         data = web.get_data_yahoo(ticker, start, end)
 
         # Keep only the adjusted close column
@@ -122,7 +131,6 @@ class TradeShapingCalculator:
         # Keep only prices at the last day of each month
         data = data.resample("M").last()
 
-        # Calculate the percent change
-        data = data.pct_change()[1:]
+        data = data.rename("monthly prices")
 
         return data
