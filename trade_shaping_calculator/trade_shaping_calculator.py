@@ -10,7 +10,7 @@ import pandas as pd
 # Datareader to download price data from the Yahoo API
 import pandas_datareader as web
 
-PORTFOLIO_DRAWDOWN_MAX_PERCENT = 0.025
+PORTFOLIO_DRAWDOWN_MAX_PERCENT = 0.02
 
 
 class TradeShapingCalculator:
@@ -18,11 +18,13 @@ class TradeShapingCalculator:
     def run():
         """
         Given a ticker, looks up the 10y rolling monthly returns of the
-        investment. From this, calculates a stop loss and target profit that
-        are one and 1.5 standard deviations respectively.
+        investment. Calculates the 10-year and five-year standard deviations.
+        From the latter, calculates a target profit and target profit and stop
+        loss exits at 1.5 standard deviations up and down. (The former is just
+        for informational purposes.)
 
         Given a portfolio size, calculates a max allocation so that a one
-        standard deviation drawdown would be a 2.5% loss to the portfolio.
+        standard deviation drawdown would be a 2% loss to the portfolio.
 
         @return [None]
         """
@@ -31,24 +33,26 @@ class TradeShapingCalculator:
         portfolio_size = input("Please enter the size in dollars of the portfolio:\n")
         portfolio_size = int(portfolio_size)
 
-        ticker_percent_monthly_changes = TradeShapingCalculator.percent_monthly_changes(
-            ticker
-        )
-        ticker_percent_standard_deviation = ticker_percent_monthly_changes.std()
+        percent_monthly_changes = TradeShapingCalculator.percent_monthly_changes(ticker)
+        ten_year_percent_standard_deviation = percent_monthly_changes.std()
+        five_year_percent_standard_deviation = percent_monthly_changes.tail(60).std()
         max_allocation = (
             portfolio_size
             * PORTFOLIO_DRAWDOWN_MAX_PERCENT
-            / ticker_percent_standard_deviation
+            / five_year_percent_standard_deviation
         )
         current_price = web.get_data_yahoo(ticker, date.today())["Adj Close"][0]
-        stop_loss = current_price * (1 - ticker_percent_standard_deviation)
-        target_profit = current_price * (1 + (ticker_percent_standard_deviation * 1.5))
+        stop_loss = current_price * (1 - (five_year_percent_standard_deviation * 1.5))
+        target_profit = current_price * (
+            1 + (five_year_percent_standard_deviation * 1.5)
+        )
 
         output = {
             "portfolio_size": portfolio_size,
             "ticker": ticker,
             "current price": current_price,
-            "percent standard deviation": ticker_percent_standard_deviation * 100,
+            "10y percent standard deviation": ten_year_percent_standard_deviation * 100,
+            "5y percent standard deviation": five_year_percent_standard_deviation * 100,
             "max allocation": max_allocation,
             "stop loss": stop_loss,
             "target profit": target_profit,

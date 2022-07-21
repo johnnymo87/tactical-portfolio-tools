@@ -2,25 +2,19 @@
 This code repository is ~a collection of tools~ currently just one tool for tactical investing.
 
 # Trade shaping calculator
-The app implements the tactical investing advice discribed by [Alfonso Peccatiello](https://twitter.com/MacroAlf) in [this edition](https://themacrocompass.substack.com/i/37808996/the-tactical-approach) of his [Macro Compass substack](https://themacrocompass.substack.com/).
+The app implements the tactical investing advice discribed by [Alfonso Peccatiello](https://twitter.com/MacroAlf) in [this edition](https://themacrocompass.substack.com/p/european-conundrum#details) of his [Macro Compass substack](https://themacrocompass.substack.com/).
 
-> The rules of the game are the following.
+> The book targets a 20% annualized return with a 10% maximum peak-to-valley drawdown, and the max loss per trade is defined at 2% of AuM (aggressive, I know: but this strategy represents only a portion of my overall approach to investing my savings). The horizon is 1-3 months.
 >
-> 1. I invest long/short in global macro products with **10% of my savings**. The bulk of my savings is invested in a long-term structural portfolio (more on that later).
+> Trades are sized according to their underlying volatility: a 1.5+ standard deviation move against me (based on 5-yrs rolling monthly history) stops me out, while a trailing profit target strategy is applied if the trade is going my way by moving the next profit target higher and tightening the stop (now making positive P&L) on the way up.
 >
-> 2. Let's call this 10% = 10.000 EUR as a starting amount.
+> By letting the profits run, I managed to generate a 12% return (6 monthly sigma!) on a single trade this year - the US 2s10s flattener.
 >
-> 3. The objective is to **make >10% total return** on this portfolio. At the end of the year, we will compare the return generated/risk taken versus the benchmark long-term structural allocation. Disclaimer: that b***h is hard to beat!
+> A time-based stop is also applied, especially on negative carry trades: if the trade isn't moving in my direction after 3 months, I take it off and re-allocate risk budget.
 >
-> 4. Every trade has a **skewed stop/initial profit target**: hard stop at -2.5% of remaining capital and initial profit target >2.5% (generally 1.5x or more). This way **I can be right <50%** of the times and still make money at year-end if I am thoroughly disciplined in hitting my stops.
+> Trades are structured via futures when available, otherwise options or ETFs.
 >
-> 5. The time horizon for trades is generally **1+ months**.
->
-> 6. In order not to hit stops too often, I place them at **1 standard deviation** distance from today's entry price calculated using **10y rolling monthly returns** and assuming a normal distribution. The entry size is adjusted such that I can lose max 2.5% of my capital if that 1-sigma move hits me.
->
-> 7. I will always **cut my losses and let my profits run**. The former is easy to understand. The latter means that if I hit my first profit target, I move it up by a bit and move up my new stop loss (now a profit target) by a bit. Profits keep on running until I hit my new stop (now a profit).
->
-> Yes I know, it's not nearly a perfectly scientific approach and I am simplifying many things, but it should work as a general framework to try and see how my calls are doing.
+> My win rate is generally around 55% (this year 64%, I am lucky) but as my stops are well defined, the idea is to have my positive P&L trades exceed my negative P&L trades at the end of the year by a decent margin.
 
 So this app will calculate the recommended stop loss, target profit, and size for an investment, all based on what a one standard deviation move is for this investment. I'm calling this app a trade shaping calcuator.
 
