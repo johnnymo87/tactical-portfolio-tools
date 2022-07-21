@@ -1,8 +1,11 @@
 # Tactical Portfolio Tools
-This code repository is ~a collection of tools~ currently just one tool for tactical investing.
+This code repository is a collection of tools for tactical investing.
+
+# Momentum calculator
+This calculator offers two kinds of calculation, a simple one month momentum calculation, and a more involved six and 12 month momentum calculation. See the code comments for details.
 
 # Trade shaping calculator
-The app implements the tactical investing advice discribed by [Alfonso Peccatiello](https://twitter.com/MacroAlf) in [this edition](https://themacrocompass.substack.com/p/european-conundrum#details) of his [Macro Compass substack](https://themacrocompass.substack.com/).
+This calculator implements the tactical investing advice discribed by [Alfonso Peccatiello](https://twitter.com/MacroAlf) in [this edition](https://themacrocompass.substack.com/p/european-conundrum#details) of his [Macro Compass substack](https://themacrocompass.substack.com/).
 
 > The book targets a 20% annualized return with a 10% maximum peak-to-valley drawdown, and the max loss per trade is defined at 2% of AuM (aggressive, I know: but this strategy represents only a portion of my overall approach to investing my savings). The horizon is 1-3 months.
 >

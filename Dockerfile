@@ -8,6 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -sSL https://install.python-poetry.org | python3 - && \
     poetry install --no-dev
 
+COPY momentum_calculator/ momentum_calculator/
 COPY trade_shaping_calculator/ trade_shaping_calculator/
 
 CMD ["sleep", "infinity"]
