@@ -186,11 +186,11 @@ class MomentumCalculator:
         @param [Date] end End date of the range (inclusive) of desired data,
           can be `None`
 
-        @return [pandas.core.frame.DataFrame]
         @return [pandas.core.series.Series]
 
         @raise [pandas_datareader._utils.RemoteDataError] If Yahoo API response
-          is not 200
+          is not 200.
+        @raise [KeyError] If Yahoo can't find the ticker.
         """
         data = web.get_data_yahoo(ticker, start, end)
 
