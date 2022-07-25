@@ -69,6 +69,7 @@ class TradeShapingCalculator:
             "5y percent standard deviation": five_year_percent_standard_deviation * 100,
             "max allocation": max_allocation,
             "stop loss": stop_loss,
+            "stop loss percent": (five_year_percent_standard_deviation * 1.5) * 100,
             "target profit": target_profit,
         }
         output = {k: [v] for k, v in output.items()}
