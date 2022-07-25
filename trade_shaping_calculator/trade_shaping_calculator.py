@@ -55,7 +55,7 @@ class TradeShapingCalculator:
             * PORTFOLIO_DRAWDOWN_MAX_PERCENT
             / five_year_percent_standard_deviation
         )
-        current_price = web.get_data_yahoo(ticker, date.today())["Adj Close"][0]
+        current_price = TradeShapingCalculator.current_price(ticker)
         stop_loss = current_price * (1 - (five_year_percent_standard_deviation * 1.5))
         target_profit = current_price * (
             1 + (five_year_percent_standard_deviation * 1.5)
@@ -135,3 +135,21 @@ class TradeShapingCalculator:
         data = data.rename("monthly prices")
 
         return data
+
+    @staticmethod
+    def current_price(ticker):
+        """
+        @param [string] ticker Ticker symbol of the stock
+
+        @return [float]
+
+        @raise [pandas_datareader._utils.RemoteDataError] If Yahoo API response
+          is not 200
+        @raise [KeyError] If Yahoo can't find the ticker.
+        """
+        data = web.get_data_yahoo(ticker)
+
+        # Keep only the adjusted close column
+        data = data["Adj Close"]
+
+        return data[0]
