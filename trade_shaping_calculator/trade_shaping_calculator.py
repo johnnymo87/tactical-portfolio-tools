@@ -149,6 +149,9 @@ class TradeShapingCalculator:
         """
         data = web.get_data_yahoo(ticker)
 
+        # Keep only the last row
+        data = data.tail(1)
+
         # Keep only the adjusted close column
         data = data["Adj Close"]
 
