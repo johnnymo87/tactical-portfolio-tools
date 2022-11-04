@@ -17,13 +17,16 @@ class TradeShapingCalculator:
     @staticmethod
     def run():
         """
-        Given a ticker, looks up the 10y rolling monthly returns of the
-        investment. Calculates the 10-year and five-year standard deviations.
-        From the latter, calculates a target profit and target profit and stop
-        loss exits at 1.5 standard deviations up and down. (The former is just
-        for informational purposes.)
+        Given a ticker, this function looks up the 10y rolling monthly returns
+        of the asset. Calculates the 10-year, five-year, and one-year standard
+        deviations.
 
-        Given a portfolio size, calculates a max allocation so that a one
+        From the one-year standard deviation, it calculates a target profit and
+        target profit and stop loss exits at 1.5 standard deviations up and
+        down. (The other standard deviations are just for informational
+        purposes.)
+
+        Given a portfolio size, it calculates a max allocation so that a 1.5
         standard deviation drawdown would be a 2% loss to the portfolio.
 
         @return [None]
@@ -50,15 +53,17 @@ class TradeShapingCalculator:
 
         ten_year_percent_standard_deviation = monthly_percent_changes.std()
         five_year_percent_standard_deviation = monthly_percent_changes.tail(60).std()
+        one_year_percent_standard_deviation = monthly_percent_changes.tail(12).std()
+        sd = one_year_percent_standard_deviation
         max_allocation = (
             portfolio_size
             * PORTFOLIO_DRAWDOWN_MAX_PERCENT
-            / five_year_percent_standard_deviation
+            / sd
         )
         current_price = TradeShapingCalculator.current_price(ticker)
-        stop_loss = current_price * (1 - (five_year_percent_standard_deviation * 1.5))
+        stop_loss = current_price * (1 - (sd * 1.5))
         target_profit = current_price * (
-            1 + (five_year_percent_standard_deviation * 1.5)
+            1 + (sd * 1.5)
         )
 
         output = {
@@ -67,6 +72,7 @@ class TradeShapingCalculator:
             "current price": current_price,
             "10y percent standard deviation": ten_year_percent_standard_deviation * 100,
             "5y percent standard deviation": five_year_percent_standard_deviation * 100,
+            "1y percent standard deviation": one_year_percent_standard_deviation * 100,
             "max allocation": max_allocation,
             "stop loss": stop_loss,
             "stop loss percent": (five_year_percent_standard_deviation * 1.5) * 100,
@@ -76,7 +82,7 @@ class TradeShapingCalculator:
         output = pd.DataFrame(output)
 
         print()
-        print(output.round(2))
+        print(output.round(2).transpose())
 
     @staticmethod
     def start_and_end_dates_for_n_monthly_returns(number_of_months_back):
